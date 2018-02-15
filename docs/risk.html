@@ -27,9 +27,12 @@
       </div>
 
       <div class="section">
-        <div>Attacker Winning Probability: <strong class="text-danger">{{ winning_probability }}%</strong></div>
-      </div>
-      <div class="section">
+        <div>Attacker Winning Probability:
+          <strong class="text-danger">
+            <span v-if="attackable">{{ winning_probability }}%</span>
+            <span v-else>-</span>
+          </strong>
+        </div>
         <div class="mt-3 text-center">
           <button v-on:click="blitz_roll" :disabled="!blitzable" type="submit" class="btn btn-danger">Blitz Roll</button>
           <button v-on:click="manual_roll" :disabled="!attackable" type="submit" class="btn btn-primary ml-3">Manual Roll</button>
