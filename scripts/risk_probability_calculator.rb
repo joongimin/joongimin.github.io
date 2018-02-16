@@ -37,11 +37,16 @@ class RiskProbabilityCalculator
   def calculate(att_troops, def_troops)
     total_count = 1000
     win_count = 0
+    total_survivors = 0
     total_count.times do
-      win = battle(att_troops, def_troops)
-      win_count += 1 if win
+      remaining_att_troops, remaining_def_troups = battle(att_troops, def_troops)
+      win_count += 1 if remaining_def_troups.zero?
+      total_survivors += remaining_att_troops
     end
-    (win_count.to_f / total_count.to_f * 100.0).round(1)
+
+    probability = (win_count.to_f / total_count.to_f * 100.0).round(1)
+    average_survivors = total_survivors.to_f / total_count.to_f
+    [probability, average_survivors]
   end
 
   def battle(att_troops, def_troops)
@@ -69,16 +74,25 @@ class RiskProbabilityCalculator
       end
     end
 
-    def_troops.zero?
+    [att_troops, def_troops]
   end
 end
 
-rows = []
+probability_list = []
+average_survivors_list = []
 calculator = RiskProbabilityCalculator.new
 (1..50).each do |att_troops|
   (1..50).each do |def_troops|
-    probability = calculator.calculate(att_troops, def_troops)
-    rows << probability
+    probability, average_survivors = calculator.calculate(att_troops, def_troops)
+    probability_list << probability
+    average_survivors_list << average_survivors
   end
 end
-puts rows.join(',')
+
+puts 'Probability:'
+puts probability_list.join(',')
+
+puts
+
+puts 'Average survivors:'
+puts average_survivors_list.join(',')
