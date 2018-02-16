@@ -35,9 +35,16 @@
           <span v-else>-</span>
         </div>
         <div>
-          <span class="">Average Survivors:</span>
+          <span class="">Average Attacker Survivors:</span>
           <span v-if="attackable">
-            <span class="text-danger strong">{{ average_survivors }}</span>
+            <span class="text-danger strong">{{ average_att_survivors }}</span>
+          </span>
+          <span v-else>-</span>
+        </div>
+        <div>
+          <span class="">Average Defender Survivors:</span>
+          <span v-if="attackable">
+            <span class="text-danger strong">{{ average_def_survivors }}</span>
           </span>
           <span v-else>-</span>
         </div>

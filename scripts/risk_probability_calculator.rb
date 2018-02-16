@@ -37,16 +37,19 @@ class RiskProbabilityCalculator
   def calculate(att_troops, def_troops)
     total_count = 1000
     win_count = 0
-    total_survivors = 0
+    total_att_survivors = 0
+    total_def_survivors = 0
     total_count.times do
-      remaining_att_troops, remaining_def_troups = battle(att_troops, def_troops)
-      win_count += 1 if remaining_def_troups.zero?
-      total_survivors += remaining_att_troops
+      remaining_att_troops, remaining_def_troops = battle(att_troops, def_troops)
+      win_count += 1 if remaining_def_troops.zero?
+      total_att_survivors += remaining_att_troops
+      total_def_survivors += remaining_def_troops
     end
 
     probability = (win_count.to_f / total_count.to_f * 100.0).round(1)
-    average_survivors = total_survivors.to_f / total_count.to_f
-    [probability, average_survivors]
+    average_att_survivors = total_att_survivors.to_f / total_count.to_f
+    average_def_survivors = total_def_survivors.to_f / total_count.to_f
+    [probability, average_att_survivors, average_def_survivors]
   end
 
   def battle(att_troops, def_troops)
@@ -79,13 +82,15 @@ class RiskProbabilityCalculator
 end
 
 probability_list = []
-average_survivors_list = []
+average_att_survivors_list = []
+average_def_survivors_list = []
 calculator = RiskProbabilityCalculator.new
 (1..50).each do |att_troops|
   (1..50).each do |def_troops|
-    probability, average_survivors = calculator.calculate(att_troops, def_troops)
+    probability, average_att_survivors, average_def_survivors = calculator.calculate(att_troops, def_troops)
     probability_list << probability
-    average_survivors_list << average_survivors
+    average_att_survivors_list << average_att_survivors
+    average_def_survivors_list << average_def_survivors
   end
 end
 
@@ -94,5 +99,10 @@ puts probability_list.join(',')
 
 puts
 
-puts 'Average survivors:'
-puts average_survivors_list.join(',')
+puts 'Average attacker survivors:'
+puts average_att_survivors_list.join(',')
+
+puts
+
+puts 'Average defender survivors:'
+puts average_def_survivors_list.join(',')
