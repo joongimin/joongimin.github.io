@@ -85,8 +85,8 @@ probability_list = []
 average_att_survivors_list = []
 average_def_survivors_list = []
 calculator = RiskProbabilityCalculator.new
-(1..50).each do |att_troops|
-  (1..50).each do |def_troops|
+(1..100).each do |att_troops|
+  (1..100).each do |def_troops|
     probability, average_att_survivors, average_def_survivors = calculator.calculate(att_troops, def_troops)
     probability_list << probability
     average_att_survivors_list << average_att_survivors
